@@ -22,6 +22,10 @@ namespace DashboardApi.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns all the servers in the system
+        /// </summary>
+        /// <response code="200">Returns all the servers in the system</response>
         [HttpGet]
         public async Task<IActionResult> GetServers()
         {
@@ -56,6 +60,11 @@ namespace DashboardApi.Controllers
             return Ok(serverResponse);
         }
 
+        /// <summary>
+        /// Update server status in the system
+        /// </summary>
+        /// <response code="204">Updates serer status in the system</response>
+        /// <response code="404">Unable to find server</response>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateServerStatus(int id, [FromBody] ServerRequest serverRequest)
         {

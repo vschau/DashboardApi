@@ -97,3 +97,14 @@ Put
 	"id": 5,
 	"total": 100.99
 }
+
+## Swagbuckles/Swagger
+- Launch the app, and navigate to http://localhost:61536/swagger.
+- http://localhost:61536/swagger/v1/swagger.json.
+- Port is from launchSettings.json
+- For xml, in Build, need to checkmark xml output with path 'bin\DashboardApi.xml'
+It'll put this in the .cproj file
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\DashboardApi.xml</DocumentationFile>
+  </PropertyGroup>
+Xml allows us to add summary to controllers
