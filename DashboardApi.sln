@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29424.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DashboardApi", "DashboardApi\DashboardApi.csproj", "{35960D64-1F7E-4FC2-AC0C-CED709979E6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DashboardApi.Contracts", "DashboardApi.Contracts\DashboardApi.Contracts.csproj", "{E2856645-1C95-41CD-9DD8-09461E74B986}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35960D64-1F7E-4FC2-AC0C-CED709979E6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35960D64-1F7E-4FC2-AC0C-CED709979E6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35960D64-1F7E-4FC2-AC0C-CED709979E6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35960D64-1F7E-4FC2-AC0C-CED709979E6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2856645-1C95-41CD-9DD8-09461E74B986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2856645-1C95-41CD-9DD8-09461E74B986}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2856645-1C95-41CD-9DD8-09461E74B986}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2856645-1C95-41CD-9DD8-09461E74B986}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7D62E51-D74A-43B5-B242-FDEE255DEBC9}
+	EndGlobalSection
+EndGlobal
