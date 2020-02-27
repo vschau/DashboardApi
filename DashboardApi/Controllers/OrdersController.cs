@@ -7,6 +7,8 @@ using DashboardApi.Contracts.Requests;
 using DashboardApi.Contracts.Requests.Queries;
 using DashboardApi.Contracts.Responses;
 using System.Linq;
+using System.Collections.Generic;
+using AutoMapper;
 
 namespace DashboardApi.Controllers
 {
@@ -16,10 +18,12 @@ namespace DashboardApi.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
 
-        public OrdersController(IOrderRepository orderRepository)
+        public OrdersController(IOrderRepository orderRepository, IMapper mapper)
         {
             _orderRepository = orderRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Orders
@@ -46,15 +50,16 @@ namespace DashboardApi.Controllers
 
             return Ok(new PagedResponse<CustomerOrderResponse>
             {
-                Data = orders.Select(order => new CustomerOrderResponse
-                {
-                    Id = order.Id,
-                    Total = order.Total,
-                    Placed = order.Placed,
-                    Completed = order.Completed,
-                    CustomerId = order.CustomerId,
-                    CustomerName = order.Cutomer.Name
-                }),
+                //Data = orders.Select(order => new CustomerOrderResponse
+                //{
+                //    Id = order.Id,
+                //    Total = order.Total,
+                //    Placed = order.Placed,
+                //    Completed = order.Completed,
+                //    CustomerId = order.CustomerId,
+                //    CustomerName = order.Cutomer.Name
+                //}),
+                Data = _mapper.Map<List<CustomerOrderResponse>>(orders),
                 TotalCount = totalCount,
                 PageSize = paginationQuery.PageSize,
                 pageIndex = paginationQuery.PageIndex,
@@ -91,11 +96,12 @@ namespace DashboardApi.Controllers
         {
             var orders = await _orderRepository.GetOrdersGrpByStateAsync();
 
-            var orderResponse = orders.Select(o => new OrderGrpByStateResponse
-            {
-                State = o.State,
-                Total = o.Total
-            });
+            var orderResponse = _mapper.Map<List<OrderGrpByStateResponse>>(orders);
+            //var orderResponse = orders.Select(o => new OrderGrpByStateResponse
+            //{
+            //    State = o.State,
+            //    Total = o.Total
+            //});
 
             return Ok(orderResponse);
         }
@@ -107,12 +113,13 @@ namespace DashboardApi.Controllers
         {
             var orders = await _orderRepository.GetOrdersGrpByCustomerAsync(n ?? 100);
 
-            var orderResponse = orders.Select(o => new OrderGrpByCustomerResponse
-            {
-                CustomerId = o.CustomerId,
-                Name = o.Name,
-                Total = o.Total
-            });
+            var orderResponse = _mapper.Map<List<OrderGrpByCustomerResponse>>(orders);
+            //var orderResponse = orders.Select(o => new OrderGrpByCustomerResponse
+            //{
+            //    CustomerId = o.CustomerId,
+            //    Name = o.Name,
+            //    Total = o.Total
+            //});
 
             return Ok(orderResponse);
         }
@@ -128,13 +135,14 @@ namespace DashboardApi.Controllers
                 return NotFound();
             }
 
-            var orderResponse = new OrderResponse
-            {
-                Id = order.Id,
-                Total = order.Total,
-                Placed = order.Placed,
-                Completed = order.Completed,
-            };
+            var orderResponse = _mapper.Map<OrderResponse>(order);
+            //var orderResponse = new OrderResponse
+            //{
+            //    Id = order.Id,
+            //    Total = order.Total,
+            //    Placed = order.Placed,
+            //    Completed = order.Completed,
+            //};
 
             return Ok(orderResponse);
         }
@@ -165,13 +173,14 @@ namespace DashboardApi.Controllers
             if (!updated)
                 return NoContent();
 
-            var orderResponse = new OrderResponse
-            {
-                Id = order.Id,
-                Total = order.Id,
-                Placed = order.Placed,
-                Completed = order.Completed
-            };
+            var orderResponse = _mapper.Map<OrderResponse>(order);
+            //var orderResponse = new OrderResponse
+            //{
+            //    Id = order.Id,
+            //    Total = order.Id,
+            //    Placed = order.Placed,
+            //    Completed = order.Completed
+            //};
 
             return Ok(orderResponse);
         }
@@ -187,24 +196,26 @@ namespace DashboardApi.Controllers
                 return BadRequest();
             }
 
-            var order = new Order
-            {
-                Total = model.Total,
-                Placed = model.Placed,
-                Completed = model.Completed,
-                CustomerId = model.CustomerId
-            };
+            var order = _mapper.Map<Order>(model);
+            //var order = new Order
+            //{
+            //    Total = model.Total,
+            //    Placed = model.Placed,
+            //    Completed = model.Completed,
+            //    CustomerId = model.CustomerId
+            //};
 
             // This adds Id to order obj
             await _orderRepository.CreateOrderAsync(order);
 
-            var orderResponse = new OrderResponse
-            {
-                Id = order.Id,
-                Total = order.Id,
-                Placed = order.Placed,
-                Completed = order.Completed
-            };
+            var orderResponse = _mapper.Map<OrderResponse>(order);
+            //var orderResponse = new OrderResponse
+            //{
+            //    Id = order.Id,
+            //    Total = order.Id,
+            //    Placed = order.Placed,
+            //    Completed = order.Completed
+            //};
 
             return Created(new Uri($"/api/orders/{order.Id}", UriKind.Relative), orderResponse);
         }

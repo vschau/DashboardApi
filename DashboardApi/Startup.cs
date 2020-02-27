@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using DashboardApi.Repositories;
+using AutoMapper;
 
 namespace DashboardApi
 {
@@ -40,7 +41,9 @@ namespace DashboardApi
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );;
+            );
+
+            services.AddAutoMapper(typeof(Startup));
 
             //services.AddSingleton<ICustomerRepository, MockCustomerRepository>();
             services.AddScoped<ICustomerRepository, SQLCustomerRepository>();

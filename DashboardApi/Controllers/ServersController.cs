@@ -1,7 +1,9 @@
-﻿using DashboardApi.Contracts.Requests;
+﻿using AutoMapper;
+using DashboardApi.Contracts.Requests;
 using DashboardApi.Contracts.Responses;
 using DashboardApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +14,12 @@ namespace DashboardApi.Controllers
     public class ServersController : ControllerBase
     {
         private readonly IServerRepository _serverRepository;
+        private readonly IMapper _mapper;
 
-        public ServersController(IServerRepository serverRepository)
+        public ServersController(IServerRepository serverRepository, IMapper mapper)
         {
             _serverRepository = serverRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,12 +27,14 @@ namespace DashboardApi.Controllers
         {
             var servers = await _serverRepository.GetServersAsync();
 
-            var serverResponse = servers.Select(s => new ServerResponse
-            {
-                Id = s.Id,
-                Name = s.Name,
-                IsOnline = s.IsOnline
-            });
+            var serverResponse = _mapper.Map<List<ServerResponse>>(servers);
+
+            //var serverResponse = servers.Select(s => new ServerResponse
+            //{
+            //    Id = s.Id,
+            //    Name = s.Name,
+            //    IsOnline = s.IsOnline
+            //});
 
             return Ok(serverResponse);
         }
@@ -39,12 +45,13 @@ namespace DashboardApi.Controllers
         {
             var server = await _serverRepository.GetServerByIdAsync(id);
 
-            var serverResponse = new ServerResponse
-            {
-                Id = server.Id,
-                Name = server.Name,
-                IsOnline = server.IsOnline
-            };
+            var serverResponse = _mapper.Map<ServerResponse>(server);
+            //var serverResponse = new ServerResponse
+            //{
+            //    Id = server.Id,
+            //    Name = server.Name,
+            //    IsOnline = server.IsOnline
+            //};
 
             return Ok(serverResponse);
         }
