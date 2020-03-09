@@ -37,8 +37,6 @@ namespace DashboardApi.Repositories
                 queryable = queryable.Where(x => x.Cutomer.Name.Contains(paginationQuery.Filter));
             }
 
-            // Add AsNoTracking() so that include customer doesn't crawl to get orders circular reference
-            // OrderBy(string) is from System.Linq.Dynamic.Core
             if (paginationQuery.SortDirection == "asc")
             {
                 queryable = queryable.OrderBy(OrderByFunc(paginationQuery.SortColumn));
@@ -55,20 +53,10 @@ namespace DashboardApi.Repositories
 
         public async Task<List<OrderGrpByState>> GetOrdersGrpByStateAsync()
         {
-            //var orders = (await _context.Orders.Include(x => x.Cutomer).ToListAsync())
-            //    .GroupBy(o => o.Cutomer.State)
-            //    .Select(grp => new OrderGrpByState
-            //    {
-            //        State = grp.Key,
-            //        Total = grp.Sum(x => x.Total)
-            //    }).OrderByDescending(r => r.Total)
-            //    .ToList();
-
             var orders = await (from c in _context.Customers
                                 join o in _context.Orders on c.Id equals o.CustomerId
                                 select new { c.State, o.Total } into g1
                                 group g1 by g1.State into g2
-                                //orderby g2.Key descending
                                 select new OrderGrpByState {
                                     State = g2.Key,
                                     Total = g2.Sum(p => p.Total)
@@ -83,7 +71,6 @@ namespace DashboardApi.Repositories
                           join o in _context.Orders on c.Id equals o.CustomerId
                           select new { c.Id, c.Name, o.Total } into g1
                           group g1 by new { g1.Id, g1.Name } into g2
-                          //orderby g2.Key descending
                           select new OrderGrpByCustomer
                           {
                               CustomerId = g2.Key.Id,

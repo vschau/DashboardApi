@@ -29,23 +29,6 @@ namespace DashboardApi.Controllers
         {
             var customers = await _customerRepository.GetCustomersAsync();
 
-            // Note that customer here is List<Customer>
-            var customerResponse = _mapper.Map<List<CustomerResponse>>(customers);
-            //var customerResponse = customers.Select(cust => new CustomerResponse
-            //{
-            //    Id = cust.Id,
-            //    Name = cust.Name,
-            //    Email = cust.Email,
-            //    State = cust.State,
-            //    Orders = cust.Orders.Select(t => new OrderResponse
-            //    {
-            //        Id = t.Id,
-            //        Total = t.Total,
-            //        Placed = t.Placed,
-            //        Completed = t.Completed,
-            //    })
-            //});
-
             return Ok(customerResponse);
         }
 
@@ -59,21 +42,6 @@ namespace DashboardApi.Controllers
                 return NotFound();
 
             var customerResponse = _mapper.Map<CustomerResponse>(customer);
-            //var customerResponse = new CustomerResponse
-            //{
-            //    Id = customer.Id,
-            //    Name = customer.Name,
-            //    Email = customer.Email,
-            //    State = customer.State,
-            //    Orders = customer.Orders.Select(t => new OrderResponse
-            //    {
-            //        Id = t.Id,
-            //        Total = t.Total,
-            //        Placed = t.Placed,
-            //        Completed = t.Completed,
-            //    })
-            //};
-
             return Ok(customerResponse);
         }
 
@@ -89,26 +57,9 @@ namespace DashboardApi.Controllers
                 State = model.State
             };
 
-            // This line will add id to our customer obj
             await _customerRepository.CreateCustomerAsync(customer);
 
             var customerResponse = _mapper.Map<CustomerResponse>(customer);
-            //var customerResponse = new CustomerResponse
-            //{
-            //    Id = customer.Id,
-            //    Name = customer.Name,
-            //    Email = customer.Email,
-            //    State = customer.State,
-            //    // New customer will have no orders
-            //    Orders = Enumerable.Empty<OrderResponse>()
-            //};
-
-            // Note that the 1st param here is routename which is decorated in GetCustomerById HttpGet action. [HttpGet("{id}", Name= "NewName")]
-            // It also returns the full URL path.
-            //return CreatedAtRoute("GetCustomerById", new { id = customer.Id }, customer);
-
-            //return full Url path.  This must match the action name
-            //return CreatedAtAction("GetCustomerById", new { id = customer.Id }, customer);
 
             return Created(new Uri($"/api/customers/{customer.Id}", UriKind.Relative), customerResponse);
         }
@@ -123,7 +74,6 @@ namespace DashboardApi.Controllers
             if (customer == null)
                 return NotFound();
 
-            // customer already has id because of the search line GetCustomerByIdAsync
             customer.Name = model.Name;
             customer.Email = model.Email;
             customer.State = model.State;
@@ -134,20 +84,6 @@ namespace DashboardApi.Controllers
                 return NotFound();
 
             var customerResponse = _mapper.Map<CustomerResponse>(customer);
-            //var customerResponse = new CustomerResponse
-            //{
-            //    Id = customer.Id,
-            //    Name = customer.Name,
-            //    Email = customer.Email,
-            //    State = customer.State,
-            //    Orders = customer.Orders.Select(t => new OrderResponse
-            //    {
-            //        Id = t.Id,
-            //        Total = t.Total,
-            //        Placed = t.Placed,
-            //        Completed = t.Completed
-            //    })
-            //};
             return Ok(customerResponse); // Can return nocontent() here
         }
 

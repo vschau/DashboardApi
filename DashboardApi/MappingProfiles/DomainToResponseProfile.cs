@@ -9,11 +9,6 @@ namespace DashboardApi.MappingProfiles
     {
         public DomainToResponseProfile()
         {
-            //        CreateMap<Post, PostResponse>()
-            //.ForMember(dest => dest.Tags, opt =>
-            //    opt.MapFrom(src => src.Tags.Select(x => new TagResponse { Name = x.TagName })));
-
-            //        CreateMap<Tag, TagResponse>();
             CreateMap<Customer, CustomerResponse>()
                 .ForMember(dest => dest.Orders, opt =>
                     opt.MapFrom(src => src.Orders.Select(t => new OrderResponse

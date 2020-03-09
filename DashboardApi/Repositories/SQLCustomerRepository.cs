@@ -29,7 +29,7 @@ namespace DashboardApi.Repositories
         {
             await _context.Customers.AddAsync(customer);
 
-            var created = await _context.SaveChangesAsync(); // //this generates the Id for customer
+            var created = await _context.SaveChangesAsync();
             return created > 0;
         }
 
